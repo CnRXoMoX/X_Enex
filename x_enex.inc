@@ -1,11 +1,3 @@
-/*
-        /////////////////////
-        //   Do not copy   //
-        //   Created By    //
-        //   XomoX#8227    //
-        /////////////////////
-*/
-
 #include <YSI_Data\y_iterate>
 #include <streamer>
 #include <YSI_Coding\y_hooks>
@@ -40,7 +32,8 @@ static
     // Other
     Iterator: enexID<MAX_ENEX>,
     getShopName[MAX_PLAYERS][MAX_ENEX_NAME],
-    bool:enexFreezePlayer[MAX_ENEX];
+    bool:enexFreezePlayer[MAX_ENEX],
+    bool:enexDisabled[MAX_ENEX];
 
 Float:GetXYInFrontOfEnex(Float:x, Float:y, Float:a, &Float:q, &Float:w, Float:distance)
 {
@@ -92,17 +85,33 @@ stock Enex_EnableFreeze(id, bool:status)
     return 1;
 }
 
+stock Enex_Disable(id, bool:status)
+{
+    if(!Iter_Contains(enexID, id)) {
+        return 0;
+    }
+
+    enexDisabled[id] = status;
+    return 1;
+}
+
 stock Enex_Create(Float:entX, Float:entY, Float:entZ, Float:entAng, Float:exiX, Float:exiY, Float:exiZ, Float:exiAng, vwid, int)
 {
     new
-        id = Iter_Alloc(enexID),
+        id = Iter_Free(enexID),
         arr[2]
     ;
+
+    if(Iter_Count(enexID) == MAX_ENEX) {
+        return print("[X:WARNING]: Cannot create another EnEx reached the maximum of MAX_ENEX");
+    }
+
+    Iter_Add(enexID, id);
 
     arr[0] = ENEX_STREAMER_IDENTIFIER;
     arr[1] = id;
 
-    entrancePickup[id] = CreateDynamicPickup(19135, 1, entX, entY, entZ);
+    entrancePickup[id] = CreateDynamicPickup(19135, 1, entX, entY, entZ, 0, 0);
     exitPickup[id] = CreateDynamicPickup(19135, 1, exiX, exiY, exiZ, vwid, int);
 
     Streamer_SetArrayData(STREAMER_TYPE_PICKUP, entrancePickup[id], E_STREAMER_EXTRA_ID, arr, sizeof(arr));
@@ -149,6 +158,10 @@ hook OnPlayerPickUpDynPickup(playerid, pickupid)
         }
 
         if(pickupid == entrancePickup[id]) {
+            
+            if(enexDisabled[id]) {
+                return 1;
+            }
 
             if(enexFreezePlayer[id]) {
                 TogglePlayerControllable(playerid, false);
@@ -158,7 +171,7 @@ hook OnPlayerPickUpDynPickup(playerid, pickupid)
             SetPlayerVirtualWorld(playerid, exVirtualID[id]);
             SetPlayerInterior(playerid, exInteriorID[id]);
 
-            GetXYInFrontOfEnex(exX[id], exY[id], exAng[id], fixedx, fixedy, 5.0);
+            GetXYInFrontOfEnex(exX[id], exY[id], exAng[id], fixedx, fixedy, 2.0);
 
             SetPlayerPos(playerid, fixedx, fixedy, exZ[id]);
             SetPlayerFacingAngle(playerid, exAng[id]);
@@ -173,7 +186,7 @@ hook OnPlayerPickUpDynPickup(playerid, pickupid)
 
             TogglePlayerControllable(playerid, true);
 
-            GetXYInFrontOfEnex(enX[id], enY[id], enAng[id], fixedx, fixedy, 5.0);
+            GetXYInFrontOfEnex(enX[id], enY[id], enAng[id], fixedx, fixedy, 2.0);
 
             SetPlayerPos(playerid, fixedx, fixedy, enZ[id]);
             SetPlayerFacingAngle(playerid, enAng[id]);
