@@ -1,0 +1,13 @@
+{
+	"user": "CnRXoMoX",
+	"repo": "X_Enex",
+	"entry": "test.pwn",
+	"output": "test.amx",
+	"dependencies": [
+		"sampctl/samp-stdlib",
+		"samp-incognito/samp-streamer-plugin:v2.9.4",
+		"pawn-lang/YSI-Includes@5.x",
+		"Zeex/amx_assembly",
+		"CnRXoMoX/E_Enex"
+	]
+}
