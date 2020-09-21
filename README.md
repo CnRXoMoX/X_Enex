@@ -98,6 +98,17 @@ new id;
     Enex_Disable(id, true) // If you want to Disable the Enex if someone enters player will not be teleported means closed
 ```
 
+## Callbacks
+
+### OnPlayerEnterEnEx(playerid, enexid)
+
+```pawn
+    publib OnPlayerEnterEnEx(playerid, enexid)
+    {
+        return 1;
+    }
+```
+
 ## Testing
 
 <!--

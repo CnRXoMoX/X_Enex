@@ -75,23 +75,23 @@ stock Enex_PlayerIn(playerid) {
     return (!isnull(getShopName[playerid])) ? getShopName[playerid] : "None";
 }
 
-stock Enex_EnableFreeze(id, bool:status) 
+stock Enex_EnableFreeze(id, bool:toggle) 
 {
     if(!Iter_Contains(enexID, id)) {
         return 0;
     }
 
-    enexFreezePlayer[id] = status;
+    enexFreezePlayer[id] = toggle;
     return 1;
 }
 
-stock Enex_Disable(id, bool:status)
+stock Enex_Disable(id, bool:toggle)
 {
     if(!Iter_Contains(enexID, id)) {
         return 0;
     }
 
-    enexDisabled[id] = status;
+    enexDisabled[id] = toggle;
     return 1;
 }
 
@@ -193,6 +193,7 @@ hook OnPlayerPickUpDynPickup(playerid, pickupid)
 
             getShopName[playerid][0] = EOS;
         }
+        CallLocalFunction("OnPlayerEnterEnEx", "ii", playerid, id);
     }
     return 1;
 }
