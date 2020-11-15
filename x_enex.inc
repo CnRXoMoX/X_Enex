@@ -177,6 +177,7 @@ hook OnPlayerPickUpDynPickup(playerid, pickupid)
             SetPlayerFacingAngle(playerid, exAng[id]);
 
             strcpy(getShopName[playerid], entranceStoreName[id], MAX_ENEX_NAME);
+            return CallLocalFunction("OnPlayerEnterEnEx, "ii", playerid, id);
         }
 
         if(pickupid == exitPickup[id]) {
@@ -192,8 +193,9 @@ hook OnPlayerPickUpDynPickup(playerid, pickupid)
             SetPlayerFacingAngle(playerid, enAng[id]);
 
             getShopName[playerid][0] = EOS;
+            return CallLocalFunction("OnPlayerExitEnterEnEx, "ii", playerid, id);
         }
-        CallLocalFunction("OnPlayerEnterEnEx", "ii", playerid, id);
+        return CallLocalFunction("OnPlayerEnteredEnEx", "ii", playerid, id);
     }
     return 1;
 }
