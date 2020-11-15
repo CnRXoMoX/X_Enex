@@ -103,11 +103,31 @@ new id;
 ### OnPlayerEnterEnEx(playerid, enexid)
 
 ```pawn
-    publib OnPlayerEnterEnEx(playerid, enexid)
+    public OnPlayerEnterEnEx(playerid, enexid)
     {
+        SendClientMessage(playerid, -1, "You're entering an EnEx!");
         return 1;
     }
 ```
+
+### OnPlayerExitEnEx(palyerid, enexid)
+
+```pawn
+    public OnPlayerExitEnEx(playerid, enexid)
+    {
+        SendClientMessage(playerid, -1, "You're exiting an EnEx!");
+        return 1;
+    }
+```
+
+### OnPlayerEnteredEnEx(playerid, enexid)
+
+```pawn
+    public OnPlayerEnteredEnEx(playerid, enexid)
+    {
+        SendClientMessage(playerid, -1, "You've successfuly entered an EnEx!);
+        return 1;
+    }
 
 ## Testing
 
