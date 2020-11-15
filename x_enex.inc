@@ -193,7 +193,7 @@ hook OnPlayerPickUpDynPickup(playerid, pickupid)
             SetPlayerFacingAngle(playerid, enAng[id]);
 
             getShopName[playerid][0] = EOS;
-            return CallLocalFunction("OnPlayerExitEnterEnEx, "ii", playerid, id);
+            return CallLocalFunction("OnPlayerExitEnEx, "ii", playerid, id);
         }
         return CallLocalFunction("OnPlayerEnteredEnEx", "ii", playerid, id);
     }
