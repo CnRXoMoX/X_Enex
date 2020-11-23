@@ -5,9 +5,25 @@
 	"output": "test.amx",
 	"dependencies": [
 		"sampctl/samp-stdlib",
-		"samp-incognito/samp-streamer-plugin:v2.9.4",
+		"samp-incognito/samp-streamer-plugin",
 		"pawn-lang/YSI-Includes@5.x",
-		"Zeex/amx_assembly",
-		"CnRXoMoX/E_Enex"
+		"Zeex/amx_assembly"
+	],
+	"builds": [
+		{
+			"name": "dev",
+			"version": "3.10.10",
+			"args": [
+				"-;+",
+				"-(+",
+				"-d3",
+				"-E",
+				"-Z"
+			],
+			"constants": {
+				"DEV_BUILD": "1"
+			},
+			"compiler": {}
+		}
 	]
 }

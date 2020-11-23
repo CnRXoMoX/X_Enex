@@ -11,6 +11,7 @@
 
 #define MAX_ENEX_NAME               (30)
 
+
 static 
     // Entrance
     entranceStoreName[MAX_ENEX][MAX_ENEX_NAME],
@@ -159,6 +160,10 @@ hook OnPlayerPickUpDynPickup(playerid, pickupid)
 
         if(pickupid == entrancePickup[id]) {
             
+            #if defined OnPlayerEnterEnEx
+                if (!OnPlayerEnterEnEx(playerid, id)) return 1;
+            #endif
+
             if(enexDisabled[id]) {
                 return 1;
             }
@@ -177,10 +182,13 @@ hook OnPlayerPickUpDynPickup(playerid, pickupid)
             SetPlayerFacingAngle(playerid, exAng[id]);
 
             strcpy(getShopName[playerid], entranceStoreName[id], MAX_ENEX_NAME);
-            return CallLocalFunction("OnPlayerEnterEnEx, "ii", playerid, id);
         }
 
         if(pickupid == exitPickup[id]) {
+
+            #if defined OnPlayerExitEnEx
+                if (!OnPlayerExitEnEx(playerid, id)) return 1;
+            #endif
 
             SetPlayerInterior(playerid, 0);
             SetPlayerVirtualWorld(playerid, 0);
@@ -193,9 +201,10 @@ hook OnPlayerPickUpDynPickup(playerid, pickupid)
             SetPlayerFacingAngle(playerid, enAng[id]);
 
             getShopName[playerid][0] = EOS;
-            return CallLocalFunction("OnPlayerExitEnEx, "ii", playerid, id);
         }
-        return CallLocalFunction("OnPlayerEnteredEnEx", "ii", playerid, id);
+        #if defined OnPlayerEnteredEnEx
+            return CallLocalFunction("OnPlayerEnteredEnEx", "ii", playerid, id);
+        #endif
     }
     return 1;
 }
